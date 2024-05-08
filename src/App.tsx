@@ -3,17 +3,21 @@ import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Dashboard from "./pages/Dashboard";
-import ContactUs from "./pages/ContactUs";
 import Loader from "./components/Loader";
 import NotFound from "./pages/error-pages/NotFound";
+// import Login from "./pages/Login";
 const About = React.lazy(() => import("./pages/About"));
+const ContactUs = React.lazy(() => import("@/pages/ContactUs"));
 
 const router = createBrowserRouter([
+  // {
+  //   path: "/",
+  //   element: <Login />,
+  //   // index:true
+  // },
   {
     path: "/",
-    element: (
-        <Layout />
-    ),
+    element: <Layout />,
     children: [
       {
         path: "/",
@@ -39,12 +43,20 @@ const router = createBrowserRouter([
       },
       {
         path: "/contact-us",
-        element: <ContactUs />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ContactUs />
+          </Suspense>
+        ),
       },
       {
         element: <NotFound />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

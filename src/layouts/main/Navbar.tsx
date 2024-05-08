@@ -142,7 +142,7 @@ const NavBar = ({
                 onClick={() => colorMode.changeColourMode("light")}
                 sx={{ width: "8rem" }}
               >
-                <Typography component={"h6"}>List</Typography>
+                <Typography component={"h6"}>Light</Typography>
               </MenuItem>
               <MenuItem onClick={() => colorMode.changeColourMode("dark")}>
                 <Typography component={"h6"}>Dark</Typography>

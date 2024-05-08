@@ -9,6 +9,7 @@ import SideBar from "./main/SideBar";
 import ErrorBoundary from "@/components/ErrorBoundry";
 import { ColorModeContext } from "@/context/colourModeContex";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { blueGrey, cyan } from "@mui/material/colors";
 
 const drawerWidth = 300;
 //if you are changin drawerWidth please change from Layout,NavBar and SideBar Files also
@@ -42,21 +43,23 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function Layout() {
-  const {getItem,setItem} = useLocalStorage<"light" | "dark">('mode');
-  const [mode, setMode] = React.useState<"light" | "dark">(getItem() as "light" | "dark"  ?? "light");
-  
+  const { getItem, setItem } = useLocalStorage<"light" | "dark">("mode");
+  const [mode, setMode] = React.useState<"light" | "dark">(
+    (getItem() as "light" | "dark") ?? "light"
+  );
+
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
         setMode((prevMode) => {
-          setItem(prevMode === "light" ? "dark" : "light")
-          return (prevMode === "light" ? "dark" : "light")
+          setItem(prevMode === "light" ? "dark" : "light");
+          return prevMode === "light" ? "dark" : "light";
         });
       },
-      changeColourMode:(mode:"light" | "dark")=>{
-        setItem(mode)
-        setMode(mode)
-      }
+      changeColourMode: (mode: "light" | "dark") => {
+        setItem(mode);
+        setMode(mode);
+      },
     }),
     [setItem]
   );
@@ -66,6 +69,27 @@ export default function Layout() {
       createTheme({
         palette: {
           mode,
+          ...(mode === "light"
+            ? {
+                primary: cyan,
+                divider: cyan[200],
+                text: {
+                  primary: cyan[900],
+                  secondary: cyan[800],
+                },
+              }
+            : {
+                primary: blueGrey,
+                divider: blueGrey[700],
+                background: {
+                  default: blueGrey[900],
+                  paper: blueGrey[900],
+                },
+                text: {
+                  primary: "#fff",
+                  secondary: blueGrey[500],
+                },
+              }),
         },
       }),
     [mode]
