@@ -3,10 +3,12 @@ import {
   Avatar,
   Grid,
   IconButton,
+  InputBase,
   Menu,
   MenuItem,
   Toolbar,
   Typography,
+  alpha,
   styled,
   useTheme,
 } from "@mui/material";
@@ -19,9 +21,70 @@ import { useNavigate } from "react-router-dom";
 import { ColorModeContext } from "@/context/colourModeContex";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import SearchIcon from "@mui/icons-material/Search";
 
 const drawerWidth = 300;
 //if you are changin drawerWidth please change from Layout,NavBar and SideBar Files also
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(
+    theme.palette.mode === "light"
+      ? theme.palette.common.black
+      : theme.palette.common.white,
+    0.15
+  ),
+  transition: "background-color 0.3s ease",
+  "&:hover": {
+    backgroundColor: alpha(
+      theme.palette.mode === "light"
+        ? theme.palette.common.black
+        : theme.palette.common.white,
+      0.25
+    ),
+  },
+  "&:focus-within": {
+    // Change color on focus
+    backgroundColor: alpha(
+      theme.palette.mode === "light"
+        ? theme.palette.common.black
+        : theme.palette.common.white,
+      0.3
+    ),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(3),
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+}));
 
 // const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -67,7 +130,7 @@ const menuList = [
   },
 ];
 
-const NavBar = ({
+const NavBarC1 = ({
   open,
   handleDrawerOpen,
 }: {
@@ -111,9 +174,15 @@ const NavBar = ({
             <MenuIcon />
           </IconButton>
 
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
 
           <Grid>
             <IconButton
@@ -135,8 +204,8 @@ const NavBar = ({
               open={modeOpenMenu}
               onClose={handleModeClose}
               anchorOrigin={{
-                horizontal:'right',
-                vertical:'bottom'
+                horizontal: "right",
+                vertical: "bottom",
               }}
               MenuListProps={{
                 "aria-labelledby": "basic-button",
@@ -189,4 +258,4 @@ const NavBar = ({
   );
 };
 
-export default NavBar;
+export default NavBarC1;

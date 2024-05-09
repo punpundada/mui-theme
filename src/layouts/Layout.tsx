@@ -2,7 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import NavBar from "./main/Navbar";
+// import NavBar from "./main/Navbar";
 import { Outlet } from "react-router-dom";
 import { createTheme, useMediaQuery, ThemeProvider } from "@mui/material";
 import SideBar from "./main/SideBar";
@@ -10,6 +10,7 @@ import ErrorBoundary from "@/components/ErrorBoundry";
 import { ColorModeContext } from "@/context/colourModeContex";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { blueGrey, cyan } from "@mui/material/colors";
+import NavbarC1 from "./custom-1/NavBarC1";
 
 const drawerWidth = 300;
 //if you are changin drawerWidth please change from Layout,NavBar and SideBar Files also
@@ -111,8 +112,8 @@ export default function Layout() {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
 
-          <NavBar open={open} handleDrawerOpen={handleDrawerOpen} />
-
+          {/* <NavBar open={open} handleDrawerOpen={handleDrawerOpen} /> */}
+          <NavbarC1 handleDrawerOpen={handleDrawerOpen} open={open}  />
           <SideBar handleDrawerClose={handleDrawerClose} open={open} />
           <ErrorBoundary>
             <Main open={open}>
