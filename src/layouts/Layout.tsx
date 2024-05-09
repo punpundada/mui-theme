@@ -2,7 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-// import NavBar from "./main/Navbar";
+import NavBar from "./main/Navbar";
 import { Outlet } from "react-router-dom";
 import { createTheme, useMediaQuery, ThemeProvider } from "@mui/material";
 import SideBar from "./main/SideBar";
@@ -11,11 +11,17 @@ import { ColorModeContext } from "@/context/colourModeContex";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { blueGrey, cyan } from "@mui/material/colors";
 import NavbarC1 from "./custom-1/NavBarC1";
+// import SideBarC1 from "./custom-1/SideBarC1";
+
+enum LayoutTheme {
+  MAIN = "MAIN",
+  CUSTOM = "CUSTOM",
+}
 
 const drawerWidth = 300;
 //if you are changin drawerWidth please change from Layout,NavBar and SideBar Files also
 
-const Main = styled("div", { shouldForwardProp: (prop) => prop !== "open" })<{
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
@@ -34,21 +40,11 @@ const Main = styled("div", { shouldForwardProp: (prop) => prop !== "open" })<{
   }),
 }));
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
-}));
-
 export default function Layout() {
   const { getItem, setItem } = useLocalStorage<"light" | "dark">("mode");
   const [mode, setMode] = React.useState<"light" | "dark">(
     (getItem() as "light" | "dark") ?? "light"
   );
-
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -106,22 +102,38 @@ export default function Layout() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  //Either CUSTOM or MAIN
+  const LAYOUT = localStorage.getItem("LAYOUT") ?? LayoutTheme.MAIN;
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
           <CssBaseline />
-
-          {/* <NavBar open={open} handleDrawerOpen={handleDrawerOpen} /> */}
-          <NavbarC1 handleDrawerOpen={handleDrawerOpen} open={open}  />
-          <SideBar handleDrawerClose={handleDrawerClose} open={open} />
-          <ErrorBoundary>
-            <Main open={open}>
-              <DrawerHeader />
-              <Outlet />
-            </Main>
-          </ErrorBoundary>
+          {LAYOUT && LAYOUT === LayoutTheme.MAIN ? (
+            <>
+              <NavBar open={open} handleDrawerOpen={handleDrawerOpen} />
+              <SideBar handleDrawerClose={handleDrawerClose} open={open} />
+            </>
+          ) : (
+            <>
+              {isSmallScreen ? (
+                <>
+                  <NavBar open={open} handleDrawerOpen={handleDrawerOpen} />
+                  <SideBar handleDrawerClose={handleDrawerClose} open={open} />
+                </>
+              ) : (
+                <NavbarC1  open={open} />
+              )}
+            </>
+          )}
         </Box>
+        <ErrorBoundary>
+          <Main open={open} sx={{ mt: LAYOUT === LayoutTheme.MAIN ? "" : "110px" }}>
+            <Outlet />
+          </Main>
+        </ErrorBoundary>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

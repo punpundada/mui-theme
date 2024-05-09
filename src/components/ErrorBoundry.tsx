@@ -1,6 +1,7 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { Component, ErrorInfo, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
+
 interface Props {
   children: ReactNode;
 }
@@ -27,12 +28,17 @@ class ErrorBoundary extends Component<Props, State> {
     this.state.error = error;
   }
 
+  resetState(){
+    this.state = {hasError:false,error:undefined}
+  }
+
   public render() {
     if (this.state.hasError) {
       return (
-        <Grid>
+        <Grid sx={{display:'flex',justifyContent:'center',alignItems:'center' ,mt:50,flexDirection:'column'}}>
           <Typography component={"h1"}>{this.state.error?.message}</Typography>
-          <GoBackButton />
+            <hr />
+          <GoBackButton resetState={this.resetState} />
         </Grid>
       );
     }
@@ -43,8 +49,11 @@ class ErrorBoundary extends Component<Props, State> {
 
 export default ErrorBoundary;
 
-const GoBackButton = () => {
+const GoBackButton = ({resetState}:{resetState:()=>void}) => {
   const navigate = useNavigate();
-
-  return <Button onClick={() => navigate(-1)}>Go back</Button>;
+  const handleClick = ()=>{
+    navigate('/')
+    resetState
+  }
+  return <Button onClick={handleClick} variant="contained" >Go back</Button>;
 };
