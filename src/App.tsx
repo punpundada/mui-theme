@@ -4,10 +4,12 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Dashboard from "./pages/Dashboard";
 import Loader from "./components/Loader";
-import NotFound from "./pages/error-pages/NotFound";
-// import Login from "./pages/Login";
+// import NotFound from "./pages/error-pages/NotFound";
 const About = React.lazy(() => import("./pages/About"));
 const ContactUs = React.lazy(() => import("@/pages/ContactUs"));
+const NotFound = React.lazy(() => import("./pages/error-pages/NotFound"));
+const Settings = React.lazy(() => import("./pages/profile/Settings"));
+// import Settings from "./pages/profile/Settings";
 
 const router = createBrowserRouter([
   // {
@@ -19,6 +21,19 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
+      {
+        path: "/profile",
+        children: [
+          {
+            path: "/profile/settings",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <Settings />
+              </Suspense>
+            ),
+          },
+        ],
+      },
       {
         path: "/",
         element: <Dashboard />,
@@ -50,7 +65,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path:"*",
+        path: "*",
         element: <NotFound />,
       },
     ],

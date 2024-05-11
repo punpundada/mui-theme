@@ -25,7 +25,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -93,6 +93,7 @@ export default function Layout() {
   );
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+  
   const [open, setOpen] = React.useState(!isSmallScreen);
 
   const handleDrawerOpen = () => {
@@ -109,7 +110,7 @@ export default function Layout() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex",}}>
           <CssBaseline />
           {LAYOUT && LAYOUT === LayoutTheme.MAIN ? (
             <>
@@ -128,12 +129,12 @@ export default function Layout() {
               )}
             </>
           )}
-        </Box>
         <ErrorBoundary>
-          <Main open={open} sx={{ mt: LAYOUT === LayoutTheme.MAIN ? "" : "110px" }}>
+          <Main open={open} sx={{mt: LAYOUT === LayoutTheme.MAIN ? "64px" : "110px",}}>
             <Outlet />
           </Main>
         </ErrorBoundary>
+        </Box>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
