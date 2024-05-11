@@ -11,15 +11,14 @@ import { ColorModeContext } from "@/context/colourModeContex";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { blueGrey, cyan } from "@mui/material/colors";
 import NavbarC1 from "./custom-1/NavBarC1";
-// import SideBarC1 from "./custom-1/SideBarC1";
 
 enum LayoutTheme {
   MAIN = "MAIN",
   CUSTOM = "CUSTOM",
 }
 
-const drawerWidth = 300;
-//if you are changin drawerWidth please change from Layout,NavBar and SideBar Files also
+const drawerWidth = 240;
+
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -40,10 +39,12 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   }),
 }));
 
+type ThemeMode = "light" | "dark";
+
 export default function Layout() {
-  const { getItem, setItem } = useLocalStorage<"light" | "dark">("mode");
-  const [mode, setMode] = React.useState<"light" | "dark">(
-    (getItem() as "light" | "dark") ?? "light"
+  const { getItem, setItem } = useLocalStorage<ThemeMode>("mode");
+  const [mode, setMode] = React.useState<ThemeMode>(
+    (getItem() as ThemeMode) ?? "light"
   );
   const colorMode = React.useMemo(
     () => ({
@@ -53,7 +54,7 @@ export default function Layout() {
           return prevMode === "light" ? "dark" : "light";
         });
       },
-      changeColourMode: (mode: "light" | "dark") => {
+      changeColourMode: (mode: ThemeMode) => {
         setItem(mode);
         setMode(mode);
       },
@@ -92,8 +93,8 @@ export default function Layout() {
     [mode]
   );
 
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-  
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [open, setOpen] = React.useState(!isSmallScreen);
 
   const handleDrawerOpen = () => {
@@ -104,36 +105,41 @@ export default function Layout() {
     setOpen(false);
   };
 
-  //Either CUSTOM or MAIN
-  const LAYOUT = localStorage.getItem("LAYOUT") ?? LayoutTheme.MAIN;
+  // Either CUSTOM or MAIN
+  const LAYOUT =
+    localStorage.getItem("LAYOUT") ??
+    (() => {
+      localStorage.setItem("LAYOYT", LayoutTheme.MAIN);
+      return LayoutTheme.MAIN;
+    })();
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <Box sx={{ display: "flex",}}>
+        <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {LAYOUT && LAYOUT === LayoutTheme.MAIN ? (
             <>
-              <NavBar open={open} handleDrawerOpen={handleDrawerOpen} />
-              <SideBar handleDrawerClose={handleDrawerClose} open={open} />
+              <NavBar open={open} handleDrawerOpen={handleDrawerOpen}  drawerWidth={drawerWidth}/>
+              <SideBar handleDrawerClose={handleDrawerClose} open={open} drawerWidth={drawerWidth} />
             </>
           ) : (
             <>
               {isSmallScreen ? (
                 <>
-                  <NavBar open={open} handleDrawerOpen={handleDrawerOpen} />
-                  <SideBar handleDrawerClose={handleDrawerClose} open={open} />
+                  <NavBar open={open} handleDrawerOpen={handleDrawerOpen} drawerWidth={drawerWidth} />
+                  <SideBar handleDrawerClose={handleDrawerClose} open={open} drawerWidth={drawerWidth} />
                 </>
               ) : (
-                <NavbarC1  open={open} />
+                <NavbarC1 open={open} />
               )}
             </>
           )}
-        <ErrorBoundary>
-          <Main open={open} sx={{mt: LAYOUT === LayoutTheme.MAIN ? "64px" : "110px",}}>
-            <Outlet />
-          </Main>
-        </ErrorBoundary>
+          <ErrorBoundary>
+            <Main open={open} sx={{ mt: LAYOUT === LayoutTheme.MAIN ? "64px" : "110px" }}>
+              <Outlet />
+            </Main>
+          </ErrorBoundary>
         </Box>
       </ThemeProvider>
     </ColorModeContext.Provider>

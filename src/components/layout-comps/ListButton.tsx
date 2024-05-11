@@ -31,7 +31,7 @@ const ListButtons = (props: SideMenuItem) => {
             {subMenuVMList.map((item) => (
               <>
                 <ListItemButton
-                  sx={{ pl: 4 }}
+                  sx={{ pl: 3 }}
                   key={item.id}
                   onClick={
                     item.subOfSubMenuVMList?.length && item.subOfSubMenuVMList?.length > 0
@@ -79,7 +79,7 @@ const SubOfSubMenuList = ({
         {subOfSubMenuVmlist.map((item) => {
           return (
             <ListItemButton
-              sx={{ pl: 8 }}
+              sx={{ pl: 6 }}
               key={item.id}
               onClick={() => navigate(item.path)}
             >

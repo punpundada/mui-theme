@@ -7,6 +7,7 @@ export const useLocalStorage = <T>(name: string) => {
       return item;
     } catch (error) {
       console.log(error);
+      return null
     }
   },[name]);
 
@@ -21,6 +22,7 @@ export const useLocalStorage = <T>(name: string) => {
       }
     } catch (error) {
       console.log(error);
+      return null
     }
   },[name]);
   return { setItem, getItem };

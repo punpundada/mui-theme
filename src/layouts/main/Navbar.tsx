@@ -5,23 +5,23 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChangeModeButton from "@/components/layout-comps/ChangeModeButton";
 import UserAvatarMenu from "@/components/layout-comps/UserAvatarMenu";
 
-const drawerWidth = 300;
 //if you are changin drawerWidth please change from Layout,NavBar and SideBar Files also
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
+  drawerwidth:number
 }
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
+})<AppBarProps>(({ theme, open,drawerwidth }) => ({
   transition: theme.transitions.create(["margin", "width"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
+    width: `calc(100% - ${drawerwidth}px)`,
+    marginLeft: `${drawerwidth}px`,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -32,12 +32,14 @@ const AppBar = styled(MuiAppBar, {
 const NavBar = ({
   open,
   handleDrawerOpen,
+  drawerWidth,
 }: {
   open: boolean;
   handleDrawerOpen: () => void;
+  drawerWidth:number
 }) => {
   return (
-    <AppBar position="fixed" open={open} variant="outlined" color="transparent">
+    <AppBar position="fixed" open={open} variant="outlined" color="transparent"  drawerwidth={drawerWidth}>
       <Toolbar>
         <Grid container justifyContent={"space-between"} alignItems={"center"}>
           

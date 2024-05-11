@@ -95,9 +95,7 @@ const listItem = {
       precedence: 1,
     },
   ],
-};
-
-const drawerWidth = 300;
+}
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -110,9 +108,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const SideBarList = ({
   open,
   handleDrawerClose,
+  drawerWidth,
 }: {
   open: boolean;
   handleDrawerClose: () => void;
+  drawerWidth:number
 }) => {
   const theme = useTheme();
   return (
