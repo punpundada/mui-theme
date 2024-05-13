@@ -4,12 +4,12 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import NavBar from "./main/Navbar";
 import { Outlet } from "react-router-dom";
-import { createTheme, useMediaQuery, ThemeProvider } from "@mui/material";
+import { createTheme, useMediaQuery, ThemeProvider, PaletteMode } from "@mui/material";
 import SideBar from "./main/SideBar";
 import ErrorBoundary from "@/components/ErrorBoundry";
 import { ColorModeContext } from "@/context/colourModeContex";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { blueGrey, cyan } from "@mui/material/colors";
+import { blueGrey, cyan,deepOrange,amber } from "@mui/material/colors";
 import NavbarC1 from "./custom-1/NavBarC1";
 
 enum LayoutTheme {
@@ -18,7 +18,6 @@ enum LayoutTheme {
 }
 
 const drawerWidth = 240;
-
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -39,13 +38,10 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   }),
 }));
 
-type ThemeMode = "light" | "dark";
 
 export default function Layout() {
-  const { getItem, setItem } = useLocalStorage<ThemeMode>("mode");
-  const [mode, setMode] = React.useState<ThemeMode>(
-    (getItem() as ThemeMode) ?? "light"
-  );
+  const { getItem, setItem } = useLocalStorage<PaletteMode>("mode");
+  const [mode, setMode] = React.useState<PaletteMode>((getItem() as PaletteMode) ?? "light");
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -54,7 +50,7 @@ export default function Layout() {
           return prevMode === "light" ? "dark" : "light";
         });
       },
-      changeColourMode: (mode: ThemeMode) => {
+      changeColourMode: (mode: PaletteMode) => {
         setItem(mode);
         setMode(mode);
       },
@@ -62,32 +58,64 @@ export default function Layout() {
     [setItem]
   );
 
+  const getTheme = (mode: PaletteMode) => {
+    switch (mode) {
+      case "light":
+        return {
+          primary: cyan,
+          divider: cyan[200],
+          text: {
+            primary: cyan[900],
+            secondary: cyan[800],
+          },
+        };
+      case "dark":
+        return {
+          primary: blueGrey,
+          divider: blueGrey[700],
+          background: {
+            default: blueGrey[900],
+            paper: blueGrey[900],
+          },
+          text: {
+            primary: "#fff",
+            secondary: blueGrey[500],
+          },
+        };
+      // case "custom":
+      //   return {
+      //     primary: cyan,
+      //     divider: cyan[200],
+      //     text: {
+      //       primary: cyan[900],
+      //       secondary: cyan[800],
+      //     },
+      //   };
+
+      default:
+        return {
+          primary: cyan,
+          divider: cyan[200],
+          text: {
+            primary: cyan[900],
+            secondary: cyan[800],
+          },
+        };
+    }
+  };
+
   const theme = React.useMemo(
     () =>
       createTheme({
         palette: {
           mode,
-          ...(mode === "light"
-            ? {
-                primary: cyan,
-                divider: cyan[200],
-                text: {
-                  primary: cyan[900],
-                  secondary: cyan[800],
-                },
-              }
-            : {
-                primary: blueGrey,
-                divider: blueGrey[700],
-                background: {
-                  default: blueGrey[900],
-                  paper: blueGrey[900],
-                },
-                text: {
-                  primary: "#fff",
-                  secondary: blueGrey[500],
-                },
-              }),
+          ...getTheme(mode),
+          primary:{
+            main:deepOrange[900]
+          },
+          secondary:{
+            main:amber[800]
+          }
         },
       }),
     [mode]
@@ -120,15 +148,31 @@ export default function Layout() {
           <CssBaseline />
           {LAYOUT && LAYOUT === LayoutTheme.MAIN ? (
             <>
-              <NavBar open={open} handleDrawerOpen={handleDrawerOpen}  drawerWidth={drawerWidth}/>
-              <SideBar handleDrawerClose={handleDrawerClose} open={open} drawerWidth={drawerWidth} />
+              <NavBar
+                open={open}
+                handleDrawerOpen={handleDrawerOpen}
+                drawerWidth={drawerWidth}
+              />
+              <SideBar
+                handleDrawerClose={handleDrawerClose}
+                open={open}
+                drawerWidth={drawerWidth}
+              />
             </>
           ) : (
             <>
               {isSmallScreen ? (
                 <>
-                  <NavBar open={open} handleDrawerOpen={handleDrawerOpen} drawerWidth={drawerWidth} />
-                  <SideBar handleDrawerClose={handleDrawerClose} open={open} drawerWidth={drawerWidth} />
+                  <NavBar
+                    open={open}
+                    handleDrawerOpen={handleDrawerOpen}
+                    drawerWidth={drawerWidth}
+                  />
+                  <SideBar
+                    handleDrawerClose={handleDrawerClose}
+                    open={open}
+                    drawerWidth={drawerWidth}
+                  />
                 </>
               ) : (
                 <NavbarC1 open={open} />

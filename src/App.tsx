@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Dashboard from "./pages/Dashboard";
