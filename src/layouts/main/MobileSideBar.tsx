@@ -3,7 +3,7 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListButtons from "@/components/layout-comps/ListButton";
-import { Typography, styled } from "@mui/material";
+import {styled } from "@mui/material";
 
 const listItem = {
   id: 5,
