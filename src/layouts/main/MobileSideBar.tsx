@@ -3,7 +3,7 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListButtons from "@/components/layout-comps/ListButton";
-import { styled } from "@mui/material";
+import { Typography, styled } from "@mui/material";
 
 const listItem = {
   id: 5,
@@ -96,42 +96,45 @@ const listItem = {
       precedence: 1,
     },
   ],
-}
+};
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
+  justifyContent: "start",
 }));
 
 type MobileSidebarType = {
-  open:boolean,
-  toggleDrawer:(value:boolean)=>void
-}
+  open: boolean;
+  toggleDrawer: (value: boolean) => void;
+};
 
-const MobileSideBar = ({open,toggleDrawer}:MobileSidebarType) => {
-
+const MobileSideBar = ({ open, toggleDrawer }: MobileSidebarType) => {
   return (
     <>
-      <Drawer open={open} onClose={()=>toggleDrawer(false)}>
+      <Drawer open={open} onClose={() => toggleDrawer(false)}>
         <Box sx={{ width: 250 }} role="presentation">
-        <DrawerHeader>
-        
-      </DrawerHeader>
-        <List
-        sx={{ maxWidth: 360, bgcolor: "background.paper" }}
-        component="aside"
-        aria-labelledby="Sidebar-list"
-      >
-        {[listItem].map((item, index) => (
-          <>
-            {index > 0 && <Divider sx={{ mb: 2 }} />}
-            <ListButtons item={item} closeDrawer={()=>toggleDrawer(false)} key={item.id} />
-          </>
-        ))}
-      </List>
+          <DrawerHeader>
+            <h3 >Webdesk</h3>
+          </DrawerHeader>
+          <List
+            sx={{ maxWidth: 360, bgcolor: "background.paper" }}
+            component="aside"
+            aria-labelledby="Sidebar-list"
+          >
+            {[listItem].map((item, index) => (
+              <>
+                {index > 0 && <Divider sx={{ mb: 2 }} />}
+                <ListButtons
+                  item={item}
+                  closeDrawer={() => toggleDrawer(false)}
+                  key={item.id}
+                />
+              </>
+            ))}
+          </List>
         </Box>
       </Drawer>
     </>
