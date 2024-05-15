@@ -54,7 +54,7 @@ export const useCustomTheme = () => {
 
 /*
 ***
-if new colour is added please add case statement in 'getLightColour' function below and the object colours
+if new colour is added please add case statement in 'getLightColour' function below and the object 'colours'
 ***
 */
   const getLightColour = (lightColour: string) => {
