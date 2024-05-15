@@ -13,7 +13,11 @@ export const colours = {
   amber: amber[900],
   pink:pink[900],
 } as const;
-// if new colour is added please add case statement in 'getLightColour' function below
+/*
+***
+if new colour is added please add case statement in 'getLightColour' function below and the object colours
+***
+*/
 
 
 export const useCustomTheme = () => {
@@ -48,6 +52,11 @@ export const useCustomTheme = () => {
     [modeColour, setItem]
   );
 
+/*
+***
+if new colour is added please add case statement in 'getLightColour' function below and the object colours
+***
+*/
   const getLightColour = (lightColour: string) => {
     switch (lightColour) {
       case 'cyan':
