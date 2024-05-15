@@ -4,13 +4,12 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import NavBar from "./main/Navbar";
 import { Outlet } from "react-router-dom";
-import { createTheme, useMediaQuery, ThemeProvider, PaletteMode } from "@mui/material";
+import {useMediaQuery, ThemeProvider } from "@mui/material";
 import SideBar from "./main/SideBar";
 import ErrorBoundary from "@/components/ErrorBoundry";
 import { ColorModeContext } from "@/context/colourModeContex";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { blueGrey, cyan,deepOrange,amber } from "@mui/material/colors";
 import NavbarC1 from "./custom-1/NavBarC1";
+import { useCustomTheme } from "@/hooks/useCustomTheme";
 
 enum LayoutTheme {
   MAIN = "MAIN",
@@ -38,88 +37,9 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   }),
 }));
 
-
 export default function Layout() {
-  const { getItem, setItem } = useLocalStorage<PaletteMode>("mode");
-  const [mode, setMode] = React.useState<PaletteMode>((getItem() as PaletteMode) ?? "light");
-  const colorMode = React.useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => {
-          setItem(prevMode === "light" ? "dark" : "light");
-          return prevMode === "light" ? "dark" : "light";
-        });
-      },
-      changeColourMode: (mode: PaletteMode) => {
-        setItem(mode);
-        setMode(mode);
-      },
-    }),
-    [setItem]
-  );
 
-  const getTheme = (mode: PaletteMode) => {
-    switch (mode) {
-      case "light":
-        return {
-          primary: cyan,
-          divider: cyan[200],
-          text: {
-            primary: cyan[900],
-            secondary: cyan[800],
-          },
-        };
-      case "dark":
-        return {
-          primary: blueGrey,
-          divider: blueGrey[700],
-          background: {
-            default: blueGrey[900],
-            paper: blueGrey[900],
-          },
-          text: {
-            primary: "#fff",
-            secondary: blueGrey[500],
-          },
-        };
-      // case "custom":
-      //   return {
-      //     primary: cyan,
-      //     divider: cyan[200],
-      //     text: {
-      //       primary: cyan[900],
-      //       secondary: cyan[800],
-      //     },
-      //   };
-
-      default:
-        return {
-          primary: cyan,
-          divider: cyan[200],
-          text: {
-            primary: cyan[900],
-            secondary: cyan[800],
-          },
-        };
-    }
-  };
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-          ...getTheme(mode),
-          primary:{
-            main:deepOrange[900]
-          },
-          secondary:{
-            main:amber[800]
-          }
-        },
-      }),
-    [mode]
-  );
+  const {colorMode,theme} = useCustomTheme()
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 

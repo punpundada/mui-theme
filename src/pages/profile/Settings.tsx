@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Grid,
@@ -6,8 +6,11 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  Box,
+  Button,
 } from "@mui/material";
+import { ColorModeContext } from "@/context/colourModeContex";
+import { colours } from "@/hooks/useCustomTheme";
+
 
 const Settings = () => {
   return (
@@ -26,21 +29,35 @@ const Settings = () => {
             Account
           </AccordionSummary>
           <AccordionDetails>
-              <Grid container sx={{alignContent:'center'}}>
-                  <Grid item >
-                    <Box sx={(theme)=>({height:'25px',width:'50px',borderRadius:"150px 150px 0 0",bgcolor:theme.palette.mode === 'light' ? 'red':'greenyellow'})}>
-
-                    </Box>
-                    <Box sx={{height:'25px',width:'50px',borderRadius:"0px 0px 150px 150px",bgcolor:'green',}}>
-
-                    </Box>
-                  </Grid>
-              </Grid>
+            <Grid container alignContent={"center"} spacing={3}>
+              {Object.entries(colours).map((item) => (
+                <Grid item>
+                  <ChangeColourButton colour={item[1]} name={item[0]} key={item[0]} />
+                </Grid>
+              ))}
+            </Grid>
           </AccordionDetails>
         </Accordion>
-        </Grid>
+      </Grid>
     </Grid>
   );
 };
 
 export default Settings;
+
+const ChangeColourButton = ({ colour, name }: { name: string; colour: string }) => {
+  const { changeColour } = useContext(ColorModeContext);
+  return (
+    <Button
+      style={{
+        backgroundColor: colour,
+        color: "white",
+        textAlign: "center",
+        height: "2rem",
+      }}
+      onClick={() => changeColour(name)}
+    >
+      {name}
+    </Button>
+  );
+};

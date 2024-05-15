@@ -1,6 +1,15 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
-export const useLocalStorage = <T>(name: string) => {
+export const useLocalStorage = <T>(name: string,def?:T) => {
+
+  try {
+    if(def){
+      localStorage.setItem(name,JSON.stringify(def))
+    }
+  } catch (error) {
+    console.error(error)
+  }
+
   const setItem = useCallback((item: T) => {
     try {
       localStorage.setItem(name, JSON.stringify(item));
@@ -16,14 +25,14 @@ export const useLocalStorage = <T>(name: string) => {
       const str = localStorage.getItem(name);
       try {
         const data = JSON.parse(str ?? "");
-        return data as T;
+        return data as T | null;
       } catch (error) {
-        return str;
+        return null;
       }
     } catch (error) {
       console.log(error);
       return null
     }
   },[name]);
-  return { setItem, getItem };
+  return useMemo(()=>({ setItem, getItem }),[getItem, setItem]);
 };
