@@ -6,9 +6,9 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 const timeout = 500;
 
-const ListButtons = (props: SideMenuItem) => {
+const ListButtons = (props: { item: SideMenuItem; closeDrawer?: () => void }) => {
   const navigate = useNavigate();
-  const { subMenuVMList, name, path } = props;
+  const { subMenuVMList, name, path } = props.item;
   const [open, setOpen] = useState(false);
   const [openSub, setOpenSub] = useState(false);
   const hasChildren = subMenuVMList?.length > 0;
@@ -36,7 +36,10 @@ const ListButtons = (props: SideMenuItem) => {
                   onClick={
                     item.subOfSubMenuVMList?.length && item.subOfSubMenuVMList?.length > 0
                       ? () => setOpenSub(!openSub)
-                      : () => navigate(path)
+                      : () => {
+                          navigate(path);
+                          props.closeDrawer && props.closeDrawer();
+                        }
                   }
                 >
                   <ListItemText primary={item.name} />
@@ -69,8 +72,10 @@ export default ListButtons;
 
 const SubOfSubMenuList = ({
   subOfSubMenuVmlist,
+  closeDrawer,
 }: {
   subOfSubMenuVmlist: SubOfSubMenuVmlist[];
+  closeDrawer?: () => void;
 }) => {
   const navigate = useNavigate();
   return (
@@ -81,7 +86,10 @@ const SubOfSubMenuList = ({
             <ListItemButton
               sx={{ pl: 6 }}
               key={item.id}
-              onClick={() => navigate(item.path)}
+              onClick={() => {
+                navigate(item.path);
+                closeDrawer && closeDrawer();
+              }}
             >
               <ListItemText primary={item.name} />
             </ListItemButton>

@@ -10,6 +10,7 @@ import ErrorBoundary from "@/components/ErrorBoundry";
 import { ColourModeProvider } from "@/context/colourModeContex";
 import NavbarC1 from "./custom-1/NavBarC1";
 import { useCustomTheme } from "@/hooks/useCustomTheme";
+import MobileSideBar from "./main/MobileSideBar";
 
 enum LayoutTheme {
   MAIN = "MAIN",
@@ -42,8 +43,12 @@ export default function Layout() {
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [open, setOpen] = React.useState(!isSmallScreen);
+  const [open, setOpen] = React.useState(true);
+  const [openMobile, setopenMobile] = React.useState(false);
 
+  const toggleMobileDrawer = (value: boolean) => {
+    setopenMobile(value);
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -65,7 +70,7 @@ export default function Layout() {
       <ThemeProvider theme={theme}>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
-          {LAYOUT && LAYOUT === LayoutTheme.MAIN ? (
+          {/* {LAYOUT && LAYOUT === LayoutTheme.MAIN ? (
             <>
               <NavBar
                 open={open}
@@ -95,6 +100,37 @@ export default function Layout() {
                 </>
               ) : (
                 <NavbarC1 open={open} />
+              )}
+            </>
+          )} */}
+          {isSmallScreen ? (
+            <>
+              <NavBar
+                open={false}
+                handleDrawerOpen={()=>setopenMobile(true)}
+                drawerWidth={drawerWidth}
+              />
+              <MobileSideBar open={openMobile} toggleDrawer={toggleMobileDrawer} />
+            </>
+          ) : (
+            <>
+              {LAYOUT === LayoutTheme.MAIN ? (
+                <>
+                  <NavBar
+                    open={open}
+                    handleDrawerOpen={handleDrawerOpen}
+                    drawerWidth={drawerWidth}
+                  />
+                  <SideBar
+                    handleDrawerClose={handleDrawerClose}
+                    open={open}
+                    drawerWidth={drawerWidth}
+                  />
+                </>
+              ) : (
+                <>
+                  <NavbarC1 open={open} />
+                </>
               )}
             </>
           )}

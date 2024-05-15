@@ -143,7 +143,7 @@ const SideBarList = ({
         {[listItem].map((item, index) => (
           <>
             {index > 0 && <Divider sx={{ mb: 2 }} />}
-            <ListButtons {...item} key={item.id} />
+            <ListButtons item={item} key={item.id} />
           </>
         ))}
       </List>
