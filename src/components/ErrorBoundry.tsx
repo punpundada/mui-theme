@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { Component, ErrorInfo, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,19 +25,27 @@ class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("Uncaught error:", error, errorInfo);
-    this.state.error = error;
   }
 
-  resetState(){
-    this.state = {hasError:false,error:undefined}
-  }
+  resetState = () => {
+    this.setState({ hasError: false, error: undefined });
+  };
 
   public render() {
     if (this.state.hasError) {
       return (
-        <Grid sx={{display:'flex',justifyContent:'center',alignItems:'center' ,mt:50,flexDirection:'column'}}>
-          <Typography component={"h1"}>{this.state.error?.message}</Typography>
-            <hr />
+        <Grid
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            mt: 40,
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <h1>{this.state.error?.message}</h1>
           <GoBackButton resetState={this.resetState} />
         </Grid>
       );
@@ -49,11 +57,15 @@ class ErrorBoundary extends Component<Props, State> {
 
 export default ErrorBoundary;
 
-const GoBackButton = ({resetState}:{resetState:()=>void}) => {
+const GoBackButton = ({ resetState }: { resetState: () => void }) => {
   const navigate = useNavigate();
-  const handleClick = ()=>{
-    navigate('/')
-    resetState
-  }
-  return <Button onClick={handleClick} variant="contained" >Go back</Button>;
+  const handleClick = () => {
+    resetState();
+    navigate('/');
+  };
+  return (
+    <Button onClick={handleClick} variant="contained">
+      Go back
+    </Button>
+  );
 };
