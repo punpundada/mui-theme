@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Grid,
@@ -8,9 +7,8 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { ColorModeContext } from "@/context/colourModeContex";
+import { useColourModeContext } from "@/context/colourModeContex";
 import { colours } from "@/hooks/useCustomTheme";
-
 
 const Settings = () => {
   return (
@@ -46,7 +44,7 @@ const Settings = () => {
 export default Settings;
 
 const ChangeColourButton = ({ colour, name }: { name: string; colour: string }) => {
-  const { changeColour } = useContext(ColorModeContext);
+  const { changeColour } = useColourModeContext();
   return (
     <Button
       style={{

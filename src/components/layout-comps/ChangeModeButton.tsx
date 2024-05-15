@@ -2,20 +2,20 @@ import React from "react";
 import { IconButton, Menu, MenuItem, Typography, useTheme } from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { ColorModeContext } from "@/context/colourModeContex";
+import { useColourModeContext } from "@/context/colourModeContex";
 
 const ChangeModeButton = () => {
-    const theme = useTheme();
-      const colorMode = React.useContext(ColorModeContext);
-      const [modeAncher, setModeAnchor] = React.useState<null | HTMLElement>(null);
-    const modeOpenMenu = Boolean(modeAncher);
-    const handleModeClose = () => {
-        setModeAnchor(null);
-      };
-    
-      const handleModeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        setModeAnchor(e.currentTarget);
-      };
+  const theme = useTheme();
+  const colorMode = useColourModeContext();
+  const [modeAncher, setModeAnchor] = React.useState<null | HTMLElement>(null);
+  const modeOpenMenu = Boolean(modeAncher);
+  const handleModeClose = () => {
+    setModeAnchor(null);
+  };
+
+  const handleModeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setModeAnchor(e.currentTarget);
+  };
   return (
     <>
       <IconButton

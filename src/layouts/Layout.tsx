@@ -4,10 +4,10 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import NavBar from "./main/Navbar";
 import { Outlet } from "react-router-dom";
-import {useMediaQuery, ThemeProvider } from "@mui/material";
+import { useMediaQuery, ThemeProvider } from "@mui/material";
 import SideBar from "./main/SideBar";
 import ErrorBoundary from "@/components/ErrorBoundry";
-import { ColorModeContext } from "@/context/colourModeContex";
+import { ColourModeProvider } from "@/context/colourModeContex";
 import NavbarC1 from "./custom-1/NavBarC1";
 import { useCustomTheme } from "@/hooks/useCustomTheme";
 
@@ -38,8 +38,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
 }));
 
 export default function Layout() {
-
-  const {colorMode,theme} = useCustomTheme()
+  const { colorMode, theme } = useCustomTheme();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -62,7 +61,7 @@ export default function Layout() {
     })();
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
+    <ColourModeProvider value={colorMode}>
       <ThemeProvider theme={theme}>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
@@ -106,6 +105,6 @@ export default function Layout() {
           </ErrorBoundary>
         </Box>
       </ThemeProvider>
-    </ColorModeContext.Provider>
+    </ColourModeProvider>
   );
 }
