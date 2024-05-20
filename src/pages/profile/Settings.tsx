@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useColourModeContext } from "@/context/colourModeContex";
 import { colours } from "@/hooks/useCustomTheme";
+import { memo } from "react";
 
 const Settings = () => {
   return (
@@ -43,7 +44,7 @@ const Settings = () => {
 
 export default Settings;
 
-const ChangeColourButton = ({ colour, name }: { name: string; colour: string }) => {
+const ChangeColourButton = memo(({ colour, name }: { name: string; colour: string }) => {
   const { changeColour } = useColourModeContext();
   return (
     <Button
@@ -58,4 +59,4 @@ const ChangeColourButton = ({ colour, name }: { name: string; colour: string }) 
       {name}
     </Button>
   );
-};
+});

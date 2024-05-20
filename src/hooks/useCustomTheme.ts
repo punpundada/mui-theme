@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 import { PaletteMode, createTheme } from "@mui/material";
 import { amber, blue, blueGrey, cyan, lightGreen, yellow ,deepPurple,pink} from "@mui/material/colors";
 
 
-export const colours = {
+export const colours = Object.freeze({
   cyan: cyan[900],
   yellow: yellow[900],
   lightGreen: lightGreen[900],
@@ -12,7 +12,8 @@ export const colours = {
   deepPurple:deepPurple[900],
   amber: amber[900],
   pink:pink[900],
-} as const;
+} as const);
+
 /*
 ***
 if new colour is added please add case statement in 'getLightColour' function below and the object colours
@@ -24,9 +25,7 @@ export const useCustomTheme = () => {
   const { getItem, setItem } = useLocalStorage<PaletteMode>("mode", "light");
   const modeColour = useLocalStorage<string>("lightColour");
 
-  const [mode, setMode] = React.useState<PaletteMode>(
-    (getItem() as PaletteMode) ?? "light"
-  );
+  const [mode, setMode] = React.useState<PaletteMode>(getItem() ?? "light");
 
   const [lightModeColour, setLightModeColour] = React.useState<string>(
     modeColour.getItem() ?? "cyan"
@@ -57,7 +56,7 @@ export const useCustomTheme = () => {
 if new colour is added please add case statement in 'getLightColour' function below and the object 'colours'
 ***
 */
-  const getLightColour = (lightColour: string) => {
+  const getLightColour = useCallback((lightColour: string) => {
     switch (lightColour) {
       case 'cyan':
         return {
@@ -133,7 +132,7 @@ if new colour is added please add case statement in 'getLightColour' function be
           },
         };
     }
-  };
+  },[]);
 
   const getTheme = React.useCallback(
     (mode: PaletteMode) => {
@@ -164,7 +163,7 @@ if new colour is added please add case statement in 'getLightColour' function be
           };
       }
     },
-    [lightModeColour]
+    [getLightColour, lightModeColour]
   );
 
   const theme = React.useMemo(
