@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -32,7 +32,7 @@ const menuList = [
   }
 ];
 
-const UserAvatarMenu = () => {
+const UserAvatarMenu = memo(() => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
@@ -77,6 +77,6 @@ const UserAvatarMenu = () => {
       </Menu>
     </>
   );
-};
+});
 
 export default UserAvatarMenu;

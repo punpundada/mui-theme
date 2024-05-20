@@ -1,24 +1,24 @@
 import { SideMenuItem, SubOfSubMenuVmlist } from "@/types/sidebar-types";
 import { Collapse, List, ListItemButton, ListItemText } from "@mui/material";
-import { useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 const timeout = 500;
 
-const ListButtons = (props: { item: SideMenuItem; closeDrawer?: () => void }) => {
+const ListButtons = memo((props: { item: SideMenuItem; closeDrawer?: () => void }) => {
   const navigate = useNavigate();
   const { subMenuVMList, name, path } = props.item;
   const [open, setOpen] = useState(false);
   const [openSub, setOpenSub] = useState(false);
-  const hasChildren = subMenuVMList?.length > 0;
-  const handleChange = () => {
+  const hasChildren = useMemo(()=>subMenuVMList?.length > 0,[subMenuVMList?.length]);
+  const handleChange = useCallback(() => {
     if (subMenuVMList.length > 0) {
       setOpen(!open);
     } else {
       navigate(path);
     }
-  };
+  },[navigate, open, path, subMenuVMList.length]);
   return (
     <>
       <ListItemButton onClick={handleChange}>
@@ -66,11 +66,11 @@ const ListButtons = (props: { item: SideMenuItem; closeDrawer?: () => void }) =>
       )}
     </>
   );
-};
+});
 
 export default ListButtons;
 
-const SubOfSubMenuList = ({
+const SubOfSubMenuList = memo(({
   subOfSubMenuVmlist,
   closeDrawer,
 }: {
@@ -98,4 +98,4 @@ const SubOfSubMenuList = ({
       </List>
     </>
   );
-};
+});

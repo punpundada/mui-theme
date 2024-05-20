@@ -1,10 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import { IconButton, Menu, MenuItem, Typography, useTheme } from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useColourModeContext } from "@/context/colourModeContex";
 
-const ChangeModeButton = () => {
+const ChangeModeButton = memo(() => {
   const theme = useTheme();
   const colorMode = useColourModeContext();
   const [modeAncher, setModeAnchor] = React.useState<null | HTMLElement>(null);
@@ -55,6 +55,6 @@ const ChangeModeButton = () => {
       </Menu>
     </>
   );
-};
+});
 
 export default ChangeModeButton;

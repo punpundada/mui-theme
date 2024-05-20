@@ -4,6 +4,7 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListButtons from "@/components/layout-comps/ListButton";
 import {styled } from "@mui/material";
+import { memo } from "react";
 
 const listItem = {
   id: 5,
@@ -111,7 +112,7 @@ type MobileSidebarType = {
   toggleDrawer: (value: boolean) => void;
 };
 
-const MobileSideBar = ({ open, toggleDrawer }: MobileSidebarType) => {
+const MobileSideBar = memo(({ open, toggleDrawer }: MobileSidebarType) => {
   return (
     <>
       <Drawer open={open} onClose={() => toggleDrawer(false)}>
@@ -139,6 +140,6 @@ const MobileSideBar = ({ open, toggleDrawer }: MobileSidebarType) => {
       </Drawer>
     </>
   );
-};
+});
 
 export default MobileSideBar;

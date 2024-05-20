@@ -3,6 +3,7 @@ import { Divider, Drawer, IconButton, styled, useTheme } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListButtons from "@/components/layout-comps/ListButton";
+import { memo } from "react";
 
 const listItem = {
   id: 5,
@@ -105,7 +106,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-const SideBarList = ({
+const SideBarList = memo(({
   open,
   handleDrawerClose,
   drawerWidth,
@@ -149,6 +150,6 @@ const SideBarList = ({
       </List>
     </Drawer>
   );
-};
+});
 
 export default SideBarList;

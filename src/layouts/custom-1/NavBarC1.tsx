@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Grid, InputBase, Toolbar, alpha, styled } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
@@ -384,7 +384,7 @@ const listItem = [
   },
 ];
 
-const Search = styled("div")(({ theme }) => ({
+const Search = memo(styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(
@@ -417,9 +417,9 @@ const Search = styled("div")(({ theme }) => ({
     marginLeft: theme.spacing(3),
     width: "auto",
   },
-}));
+})));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
+const SearchIconWrapper = memo(styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
   position: "absolute",
@@ -427,9 +427,9 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-}));
+})));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = memo(styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
@@ -440,13 +440,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       width: "20ch",
     },
   },
-}));
+})));
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-const AppBar = styled(MuiAppBar, {
+const AppBar = memo(styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
   transition: theme.transitions.create(["margin", "width"], {
@@ -459,9 +459,9 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-}));
+})));
 
-const NavBarC1 = ({ open }: { open: boolean }) => {
+const NavBarC1 = memo(({ open }: { open: boolean }) => {
   return (
     <>
       <AppBar position="fixed" open={open} variant="outlined" color="transparent">
@@ -501,6 +501,6 @@ const NavBarC1 = ({ open }: { open: boolean }) => {
       </AppBar>
     </>
   );
-};
+});
 
 export default NavBarC1;

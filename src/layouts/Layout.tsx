@@ -19,7 +19,7 @@ enum LayoutTheme {
 
 const drawerWidth = 240;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
+const Main = React.memo(styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
@@ -36,7 +36,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
     }),
     marginLeft: 0,
   }),
-}));
+})));
 
 export default function Layout() {
   const { colorMode, theme } = useCustomTheme();
@@ -46,63 +46,31 @@ export default function Layout() {
   const [open, setOpen] = React.useState(true);
   const [openMobile, setopenMobile] = React.useState(false);
 
-  const toggleMobileDrawer = (value: boolean) => {
+  const toggleMobileDrawer = React.useCallback((value: boolean) => {
     setopenMobile(value);
-  };
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  },[]);
 
-  const handleDrawerClose = () => {
+  const handleDrawerOpen = React.useCallback(() => {
+    setOpen(true);
+  },[]);
+
+  const handleDrawerClose = React.useCallback(() => {
     setOpen(false);
-  };
+  },[]);
 
   // Either CUSTOM or MAIN
-  const LAYOUT =
-    localStorage.getItem("LAYOUT") ??
-    (() => {
-      localStorage.setItem("LAYOYT", LayoutTheme.MAIN);
-      return LayoutTheme.MAIN;
-    })();
+  const LAYOUT =React.useMemo(()=>localStorage.getItem("LAYOUT") ??
+  (() => {
+    localStorage.setItem("LAYOYT", LayoutTheme.MAIN);
+    return LayoutTheme.MAIN;
+  })(),[])
+
 
   return (
     <ColourModeProvider value={colorMode}>
       <ThemeProvider theme={theme}>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
-          {/* {LAYOUT && LAYOUT === LayoutTheme.MAIN ? (
-            <>
-              <NavBar
-                open={open}
-                handleDrawerOpen={handleDrawerOpen}
-                drawerWidth={drawerWidth}
-              />
-              <SideBar
-                handleDrawerClose={handleDrawerClose}
-                open={open}
-                drawerWidth={drawerWidth}
-              />
-            </>
-          ) : (
-            <>
-              {isSmallScreen ? (
-                <>
-                  <NavBar
-                    open={open}
-                    handleDrawerOpen={handleDrawerOpen}
-                    drawerWidth={drawerWidth}
-                  />
-                  <SideBar
-                    handleDrawerClose={handleDrawerClose}
-                    open={open}
-                    drawerWidth={drawerWidth}
-                  />
-                </>
-              ) : (
-                <NavbarC1 open={open} />
-              )}
-            </>
-          )} */}
           {isSmallScreen ? (
             <>
               <NavBar

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { SubMenuVmlist } from "@/types/sidebar-types";
 import { Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -13,12 +13,12 @@ const BottomNavSelect = ({
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
+  },[]);
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  },[]);
   return (
     <>
       <Box
@@ -71,13 +71,13 @@ const MenuListItem = ({ SubMenuItem }: { SubMenuItem: SubMenuVmlist }) => {
   const open = Boolean(anchorEl);
   const hasChildren = (SubMenuItem.subOfSubMenuVMList?.length ?? 0) > 0;
 
-  const handleClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+  const handleClick = useCallback((event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
     setAnchorEl(event.currentTarget);
-  };
+  },[]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  },[]);
 
   return (
     <>

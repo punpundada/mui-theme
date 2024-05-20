@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Grid, IconButton, Toolbar, Typography, styled } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -12,7 +12,7 @@ interface AppBarProps extends MuiAppBarProps {
   drawerwidth:number
 }
 
-const AppBar = styled(MuiAppBar, {
+const AppBar = memo(styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open,drawerwidth }) => ({
   transition: theme.transitions.create(["margin", "width"], {
@@ -27,9 +27,9 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-}));
+})));
 
-const NavBar = ({
+const NavBar = memo(({
   open,
   handleDrawerOpen,
   drawerWidth,
@@ -65,6 +65,6 @@ const NavBar = ({
       </Toolbar>
     </AppBar>
   );
-};
+});
 
 export default NavBar;
