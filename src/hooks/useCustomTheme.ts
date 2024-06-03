@@ -22,7 +22,7 @@ if new colour is added please add case statement in 'getLightColour' function be
 
 
 export const useCustomTheme = () => {
-  const { getItem, setItem } = useLocalStorage<PaletteMode>("mode", "light");
+  const { getItem, setItem } = useLocalStorage<PaletteMode>("mode");
   const modeColour = useLocalStorage<string>("lightColour");
 
   const [mode, setMode] = React.useState<PaletteMode>(getItem() ?? "light");

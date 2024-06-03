@@ -121,7 +121,7 @@ const MobileSideBar = memo(({ open, toggleDrawer }: MobileSidebarType) => {
             <h3 >Webdesk</h3>
           </DrawerHeader>
           <List
-            sx={{ maxWidth: 360, bgcolor: "background.paper" }}
+            sx={{ maxWidth: 360, bgcolor: "inherit" }}
             component="aside"
             aria-labelledby="Sidebar-list"
           >

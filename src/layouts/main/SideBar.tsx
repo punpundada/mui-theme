@@ -137,7 +137,7 @@ const SideBarList = memo(({
         </IconButton>
       </DrawerHeader>
       <List
-        sx={{ width: drawerWidth, maxWidth: 360, bgcolor: "background.paper" }}
+        sx={{ width: drawerWidth, maxWidth: 360, bgcolor: "inherit" }}
         component="aside"
         aria-labelledby="Sidebar-list"
       >
